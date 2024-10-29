@@ -156,4 +156,3 @@ BEGIN
 END;
 $$;
 
--- Exercícios da Apostila 16:
