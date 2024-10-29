@@ -3,6 +3,23 @@
 -- 1. Introdução
 -- 1.1 Escreva um cursor que exiba as variáveis rank e youtuber de toda tupla que tiver
 -- video_count pelo menos igual a 1000 e cuja category seja igual a Sports ou Music.
+DO
+$$
+DECLARE
+    cur_top_youtubers CURSOR FOR SELECT rank, youtuber FROM tb_top_youtubers
+        WHERE video_count >= 1000 AND category IN ('Sports', 'Music');
+    v_rank INT;
+    v_youtuber VARCHAR(200);
+BEGIN
+    OPEN cur_top_youtubers;
+    LOOP
+        FETCH cur_top_youtubers INTO v_rank, v_youtuber;
+        EXIT WHEN NOT FOUND;
+        RAISE NOTICE 'Rank: %, Youtuber: %', v_rank, v_youtuber;
+    END LOOP;
+    CLOSE cur_top_youtubers;
+END;
+$$;
 
 -- 1.2 Escreva um cursor que exibe todos os nomes dos youtubers em ordem reversa. Para tal
 -- - O SELECT deverá ordenar em ordem não reversa
