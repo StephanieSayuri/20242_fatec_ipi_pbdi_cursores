@@ -25,6 +25,25 @@ $$;
 -- - O SELECT deverá ordenar em ordem não reversa
 -- - O Cursor deverá ser movido para a última tupla
 -- - Os dados deverão ser exibidos de baixo para cima
+DO
+$$
+DECLARE
+    -- Declaração do cursor com a ordem inversa no SELECT
+    cur_nomes_youtubers REFCURSOR;
+    v_youtuber VARCHAR(200);
+BEGIN
+    -- Abertura do cursor, ordenando em ordem decrescente
+    OPEN cur_nomes_youtubers FOR SELECT youtuber FROM tb_top_youtubers ORDER BY youtuber DESC;
+    LOOP
+        -- Recuperação e exibição dos dados
+        FETCH cur_nomes_youtubers INTO v_youtuber;
+        EXIT WHEN NOT FOUND;
+        RAISE NOTICE '%', v_youtuber;
+    END LOOP;
+    -- Fechamento do cursor
+    CLOSE cur_nomes_youtubers;
+END;
+$$;
 
 -- 1.3 Faça uma pesquisa sobre o anti-pattern chamado RBAR - Row By Agonizing Row.
 -- Explique com suas palavras do que se trata.
